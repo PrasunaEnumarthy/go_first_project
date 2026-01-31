@@ -1,4 +1,4 @@
-module github.com/PrasunaEnumarthy/go_first_project
+module github.com/PrasunaEnumarthy/GO
 
 go 1.25.5
 
