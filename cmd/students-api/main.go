@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	//"fmt"
 	"log"
 	"log/slog"
 	"net/http"
@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/PrasunaEnumarthy/GO/internal/config"
+	"github.com/PrasunaEnumarthy/GO/internal/config/http/handlers/student"
 )
 
 //import "fmt"
@@ -23,17 +24,16 @@ func main() {
 	//setup router
 	
 	router:=http.NewServeMux()
-	router.HandleFunc("GET /",func(w http.ResponseWriter,r*http.Request){
-		w.Write([]byte("prasuna loves to get fucked by brijesh"))
-	})
+	router.HandleFunc("/api/students",student.New())
 	//setup server
 
-	slog.Info("server started",slog.String("address",cfg.Add))
-	fmt.Printf("server started %s",cfg.Add)
+	
+	
 	server:=http.Server{
 		Addr: cfg.Add,
 		Handler: router,
 	}
+	slog.Info("server started",slog.String("address",cfg.Add))
 	done:=make(chan os.Signal,1)
 
 	signal.Notify(done,os.Interrupt,syscall.SIGINT,syscall.SIGTERM)
