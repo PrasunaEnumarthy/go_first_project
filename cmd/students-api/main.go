@@ -13,6 +13,9 @@ import (
 
 	"github.com/PrasunaEnumarthy/GO/internal/config"
 	"github.com/PrasunaEnumarthy/GO/internal/config/http/handlers/student"
+
+	"github.com/PrasunaEnumarthy/GO/internal/storage/sqlite"
+	  
 )
 
 //import "fmt"
@@ -21,10 +24,15 @@ func main() {
 	//LOAD CONFIG
 	cfg :=config.MustLoad()
 	//db setup
+	storage,err:=sqlite.New(cfg)
+	if err!=nil{
+		log.Fatal(err)
+	}
+	slog.Info("storage is initialised",slog.String("env",cfg.Env),slog.String("version","1.0.0"))
 	//setup router
 	
 	router:=http.NewServeMux()
-	router.HandleFunc("/api/students",student.New())
+	router.HandleFunc("/api/students",student.New(storage))
 	//setup server
 
 	
